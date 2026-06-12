@@ -29,14 +29,6 @@ jobs:
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
             dist/github-contribution-grid-snake.gif
 
-      - name: Add game over frame
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pillow
-          python scripts/append_game_over.py dist/github-contribution-grid-snake.gif dist/github-contribution-grid-snake-dark-game-over.gif rkhplace
-
       - name: Push Snake to output branch
         uses: crazy-max/ghaction-github-pages@v4
         with:
