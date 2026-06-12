@@ -18,6 +18,10 @@ Information Systems student and front-end developer focused on building responsi
       <img src="https://github-readme-stats-eight-theta.vercel.app/api?username=rkhplace&show_icons=true&theme=algolia&include_all_commits=true&count_private=true" alt="GitHub stats" width="100%" />
       <br><br>
       <img src="https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=rkhplace&layout=compact&theme=algolia" alt="Most used languages" width="100%" />
+      <br><br>
+      <img src="https://streak-stats.demolab.com?user=rkhplace&theme=algolia&hide_border=false&border_radius=6" alt="GitHub streak" width="100%" />
+      <br><br>
+      <img src="https://github-profile-trophy.vercel.app/?username=rkhplace&theme=algolia&no-frame=false&no-bg=true&margin-w=8&margin-h=8&column=4&title=Commits,PullRequest,Repositories,Stars" alt="GitHub trophies" width="100%" />
     </td>
     <td width="48%" valign="top">
       <h2>Tech stack</h2>
