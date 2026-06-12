@@ -20,12 +20,20 @@ jobs:
 
       - name: Generate Snake
         uses: Platane/snk@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           github_user_name: rkhplace
           outputs: |
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
-            dist/github-contribution-grid-snake.gif
+            dist/github-contribution-grid-snake.gif?color_background=#000000
+
+      - name: Add game over frame
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pillow
+          python scripts/append_game_over.py dist/github-contribution-grid-snake.gif
 
       - name: Push Snake to output branch
         uses: crazy-max/ghaction-github-pages@v4

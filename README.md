@@ -4,7 +4,7 @@
 
 # @rkhplace
 
-Hi, I'm Rakha. I'm an Information Systems student focused on front-end development, clean interfaces, and useful web experiences.
+Information Systems student and front-end developer focused on building responsive, accessible, and maintainable web applications.
 
 [![Instagram](https://img.shields.io/badge/Instagram-111827?style=for-the-badge&logo=instagram&logoColor=E4405F)](https://www.instagram.com/story.thur)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-111827?style=for-the-badge&logo=linkedin&logoColor=0A66C2)](https://www.linkedin.com/in/fatkhurrhn)
@@ -45,16 +45,6 @@ Hi, I'm Rakha. I'm an Information Systems student focused on front-end developme
     </td>
   </tr>
 </table>
-
----
-
-## Activity
-
-<div align="left">
-  <a href="https://fatkhurrhn.vercel.app/">
-    <img src="https://github-readme-activity-graph.vercel.app/graph?username=rkhplace&theme=github-compact&radius=8" alt="GitHub activity graph" width="100%" />
-  </a>
-</div>
 
 ## Contribution snake
 
