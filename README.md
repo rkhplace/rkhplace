@@ -4,7 +4,9 @@
 
 # @rkhplace
 
-Information Systems student and front-end developer focused on building responsive, accessible, and maintainable web applications.
+Informatics student and front-end developer interested in building practical digital products for web and mobile platforms.
+I enjoy designing clean interfaces, improving user experience, and turning product ideas into responsive, maintainable applications.
+Currently learning and working with modern web technologies, mobile development, and software testing.
 
 [![Instagram](https://img.shields.io/badge/Instagram-111827?style=for-the-badge&logo=instagram&logoColor=E4405F)](https://www.instagram.com/rkhap_)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-111827?style=for-the-badge&logo=linkedin&logoColor=0A66C2)](https://www.linkedin.com/in/rkhap/)
