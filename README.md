@@ -6,9 +6,8 @@
 
 Information Systems student and front-end developer focused on building responsive, accessible, and maintainable web applications.
 
-[![Instagram](https://img.shields.io/badge/Instagram-111827?style=for-the-badge&logo=instagram&logoColor=E4405F)](https://www.instagram.com/rkhplace_)
+[![Instagram](https://img.shields.io/badge/Instagram-111827?style=for-the-badge&logo=instagram&logoColor=E4405F)](https://www.instagram.com/rkhap_)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-111827?style=for-the-badge&logo=linkedin&logoColor=0A66C2)](https://www.linkedin.com/in/rkhap/)
-[![TikTok](https://img.shields.io/badge/TikTok-111827?style=for-the-badge&logo=tiktok&logoColor=FFFFFF)](https://www.tiktok.com/@fatkhurrhnn)
 [![Email](https://img.shields.io/badge/Email-111827?style=for-the-badge&logo=gmail&logoColor=EA4335)](mailto:mrakhaptatama135@gmail.com)
 
 ---
