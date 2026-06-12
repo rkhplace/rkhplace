@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import json
+import os
 import sys
+import urllib.request
 
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageSequence
 
 BLACK = (0, 0, 0, 255)
 DARK_CELL = (15, 23, 32, 255)
@@ -64,21 +67,117 @@ def draw_cell(
     draw.rectangle(cell_box(left, top, col, row), fill=color)
 
 
-def extract_contribution_cells(source: Image.Image) -> dict[tuple[int, int], tuple[int, int, int, int]]:
+def hex_to_rgba(color: str) -> tuple[int, int, int, int]:
+    color = color.lstrip("#")
+    return (
+        int(color[0:2], 16),
+        int(color[2:4], 16),
+        int(color[4:6], 16),
+        255,
+    )
+
+
+def fetch_github_contribution_cells(username: str) -> dict[tuple[int, int], tuple[int, int, int, int]]:
+    token = os.environ.get("GITHUB_TOKEN")
+    if not token:
+        return {}
+
+    query = """
+    query($login: String!) {
+      user(login: $login) {
+        contributionsCollection {
+          contributionCalendar {
+            weeks {
+              contributionDays {
+                weekday
+                contributionCount
+                color
+              }
+            }
+          }
+        }
+      }
+    }
+    """
+    payload = json.dumps({"query": query, "variables": {"login": username}}).encode()
+    request = urllib.request.Request(
+        "https://api.github.com/graphql",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+            "User-Agent": "rkhplace-profile-readme",
+        },
+        method="POST",
+    )
+
+    with urllib.request.urlopen(request, timeout=30) as response:
+        data = json.loads(response.read().decode())
+
+    weeks = data["data"]["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+    weeks = weeks[-GRID_COLS:]
+    start_col = GRID_COLS - len(weeks)
+    cells: dict[tuple[int, int], tuple[int, int, int, int]] = {}
+
+    for week_index, week in enumerate(weeks):
+        for day in week["contributionDays"]:
+            if day["contributionCount"] <= 0:
+                continue
+
+            col = start_col + week_index
+            row = day["weekday"]
+            cells[(col, row)] = hex_to_rgba(day["color"])
+
+    return cells
+
+
+def is_grid_pixel(red: int, green: int, blue: int, alpha: int) -> bool:
+    if alpha < 16:
+        return False
+
+    return max(red, green, blue) < 250
+
+
+def infer_source_grid_origin(source: Image.Image) -> tuple[int, int]:
     rgba = source.convert("RGBA")
-    left, top = grid_origin(rgba.size)
+    best_origin = (0, 0)
+    best_score = -1
+
+    for top in range(0, max(1, rgba.height - GRID_ROWS * (CELL + GAP))):
+        for left in range(0, max(1, rgba.width - GRID_COLS * (CELL + GAP))):
+            score = 0
+
+            for row in range(GRID_ROWS):
+                for col in range(GRID_COLS):
+                    x = left + col * (CELL + GAP) + CELL // 2
+                    y = top + row * (CELL + GAP) + CELL // 2
+
+                    if x >= rgba.width or y >= rgba.height:
+                        continue
+
+                    if is_grid_pixel(*rgba.getpixel((x, y))):
+                        score += 1
+
+            if score > best_score:
+                best_score = score
+                best_origin = (left, top)
+
+    return best_origin
+
+
+def extract_contribution_cells(source: Image.Image) -> dict[tuple[int, int], tuple[int, int, int, int]]:
+    first_frame = next(ImageSequence.Iterator(source)).copy().convert("RGBA")
+    left, top = infer_source_grid_origin(first_frame)
     cells: dict[tuple[int, int], tuple[int, int, int, int]] = {}
 
     for row in range(GRID_ROWS):
         for col in range(GRID_COLS):
             x = left + col * (CELL + GAP) + CELL // 2
             y = top + row * (CELL + GAP) + CELL // 2
-            red, green, blue, alpha = rgba.getpixel((x, y))
-            highest = max(red, green, blue)
-            lowest = min(red, green, blue)
-            is_neutral = highest - lowest <= 45
+            red, green, blue, alpha = first_frame.getpixel((x, y))
+            is_contribution = green > red + 12 and green > blue + 12
 
-            if alpha > 16 and highest > 80 and not is_neutral:
+            if alpha > 16 and is_contribution:
                 cells[(col, row)] = (red, green, blue, 255)
 
     return cells
@@ -126,6 +225,9 @@ def snake_frames(
     path = snake_path()
     eaten: set[tuple[int, int]] = set()
     body_length = 6
+
+    for _ in range(16):
+        frames.append(draw_contribution_frame(size, cells, eaten, []))
 
     for index in range(0, len(path), 2):
         head_path = path[max(0, index - body_length + 1) : index + 1]
@@ -199,13 +301,18 @@ def message_frames(size: tuple[int, int], message: str, font: dict[str, list[str
 
 
 def main() -> None:
-    if len(sys.argv) not in {2, 3}:
-        raise SystemExit("Usage: append_game_over.py <input-gif-path> [output-gif-path]")
+    if len(sys.argv) not in {2, 3, 4}:
+        raise SystemExit("Usage: append_game_over.py <input-gif-path> [output-gif-path] [github-username]")
 
     input_path = Path(sys.argv[1])
-    output_path = Path(sys.argv[2]) if len(sys.argv) == 3 else input_path
+    output_path = Path(sys.argv[2]) if len(sys.argv) >= 3 else input_path
+    username = sys.argv[3] if len(sys.argv) == 4 else os.environ.get("GITHUB_REPOSITORY_OWNER", "")
     source = Image.open(input_path)
-    cells = extract_contribution_cells(source)
+    cells = fetch_github_contribution_cells(username) if username else {}
+
+    if not cells:
+        cells = extract_contribution_cells(source)
+
     animation_frames = [
         *snake_frames(source.size, cells),
         *message_frames(source.size, "GAME OVER", FONT_5X7, 7),
