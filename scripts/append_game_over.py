@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import urllib.request
 
@@ -15,6 +16,12 @@ LIT_CELL = (57, 255, 20, 255)
 GLOW_CELL = (57, 255, 20, 46)
 SNAKE_HEAD = (139, 0, 139, 255)
 SNAKE_BODY = (57, 255, 20, 255)
+LEVEL_COLORS = {
+    1: (14, 68, 41, 255),
+    2: (0, 109, 50, 255),
+    3: (38, 166, 65, 255),
+    4: (57, 211, 83, 255),
+}
 CELL = 11
 GAP = 4
 GRID_COLS = 53
@@ -127,6 +134,33 @@ def fetch_github_contribution_cells(username: str) -> dict[tuple[int, int], tupl
             col = start_col + week_index
             row = day["weekday"]
             cells[(col, row)] = hex_to_rgba(day["color"])
+
+    return cells
+
+
+def fetch_public_contribution_cells(username: str) -> dict[tuple[int, int], tuple[int, int, int, int]]:
+    request = urllib.request.Request(
+        f"https://github.com/users/{username}/contributions",
+        headers={"User-Agent": "rkhplace-profile-readme"},
+    )
+
+    with urllib.request.urlopen(request, timeout=30) as response:
+        html = response.read().decode()
+
+    cells: dict[tuple[int, int], tuple[int, int, int, int]] = {}
+    pattern = re.compile(
+        r'id="contribution-day-component-(?P<row>\d)-(?P<col>\d+)".*?data-level="(?P<level>\d)"',
+        re.DOTALL,
+    )
+
+    for match in pattern.finditer(html):
+        level = int(match.group("level"))
+        if level <= 0:
+            continue
+
+        row = int(match.group("row"))
+        col = int(match.group("col"))
+        cells[(col, row)] = LEVEL_COLORS.get(level, LEVEL_COLORS[4])
 
     return cells
 
@@ -308,7 +342,19 @@ def main() -> None:
     output_path = Path(sys.argv[2]) if len(sys.argv) >= 3 else input_path
     username = sys.argv[3] if len(sys.argv) == 4 else os.environ.get("GITHUB_REPOSITORY_OWNER", "")
     source = Image.open(input_path)
-    cells = fetch_github_contribution_cells(username) if username else {}
+    cells: dict[tuple[int, int], tuple[int, int, int, int]] = {}
+
+    if username:
+        try:
+            cells = fetch_github_contribution_cells(username)
+        except Exception:
+            cells = {}
+
+        if not cells:
+            try:
+                cells = fetch_public_contribution_cells(username)
+            except Exception:
+                cells = {}
 
     if not cells:
         cells = extract_contribution_cells(source)
