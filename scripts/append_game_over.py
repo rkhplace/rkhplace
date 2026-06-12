@@ -19,8 +19,35 @@ def load_font(size: int) -> ImageFont.ImageFont:
     return ImageFont.load_default()
 
 
+BLACK = (0, 0, 0, 255)
+DARK_CELL = (22, 27, 34, 255)
+
+
+def darken_frame(frame: Image.Image) -> Image.Image:
+    rgba = frame.convert("RGBA")
+    pixels = rgba.load()
+
+    for y in range(rgba.height):
+        for x in range(rgba.width):
+            red, green, blue, alpha = pixels[x, y]
+
+            if alpha < 16:
+                pixels[x, y] = BLACK
+                continue
+
+            is_white_background = red >= 245 and green >= 245 and blue >= 245
+            is_light_cell = red >= 215 and green >= 215 and blue >= 215
+
+            if is_white_background:
+                pixels[x, y] = BLACK
+            elif is_light_cell:
+                pixels[x, y] = DARK_CELL
+
+    return rgba
+
+
 def centered_text_frame(size: tuple[int, int]) -> Image.Image:
-    frame = Image.new("RGBA", size, "#000000")
+    frame = Image.new("RGBA", size, BLACK)
     draw = ImageDraw.Draw(frame)
 
     title_font = load_font(max(22, size[0] // 11))
@@ -48,28 +75,29 @@ def centered_text_frame(size: tuple[int, int]) -> Image.Image:
 
 
 def main() -> None:
-    if len(sys.argv) != 2:
-        raise SystemExit("Usage: append_game_over.py <gif-path>")
+    if len(sys.argv) not in {2, 3}:
+        raise SystemExit("Usage: append_game_over.py <input-gif-path> [output-gif-path]")
 
-    gif_path = Path(sys.argv[1])
-    source = Image.open(gif_path)
+    input_path = Path(sys.argv[1])
+    output_path = Path(sys.argv[2]) if len(sys.argv) == 3 else input_path
+    source = Image.open(input_path)
 
     frames: list[Image.Image] = []
     durations: list[int] = []
 
     for frame in ImageSequence.Iterator(source):
-        rgba = frame.convert("RGBA")
-        background = Image.new("RGBA", rgba.size, "#000000")
-        background.alpha_composite(rgba)
-        frames.append(background.convert("P", palette=Image.Palette.ADAPTIVE))
+        rgba = darken_frame(frame)
+        frames.append(rgba.convert("P", palette=Image.Palette.ADAPTIVE))
         durations.append(frame.info.get("duration", 80))
 
     game_over = centered_text_frame(source.size).convert("P", palette=Image.Palette.ADAPTIVE)
-    frames.append(game_over)
-    durations.append(1400)
+
+    for _ in range(24):
+        frames.append(game_over)
+        durations.append(100)
 
     frames[0].save(
-        gif_path,
+        output_path,
         save_all=True,
         append_images=frames[1:],
         duration=durations,

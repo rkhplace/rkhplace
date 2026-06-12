@@ -49,5 +49,5 @@ Information Systems student and front-end developer focused on building responsi
 ## Contribution snake
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rkhplace/rkhplace/output/github-contribution-grid-snake.gif" alt="GitHub contribution snake animation" width="100%" />
+  <img src="https://raw.githubusercontent.com/rkhplace/rkhplace/output/github-contribution-grid-snake-dark-game-over.gif" alt="GitHub contribution snake animation" width="100%" />
 </p>
