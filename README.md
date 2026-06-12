@@ -58,12 +58,6 @@ Hi, I'm Rakha. I'm an Information Systems student focused on front-end developme
 
 ## Contribution snake
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rkhplace/rkhplace/output/github-contribution-grid-snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/rkhplace/rkhplace/output/github-contribution-grid-snake.svg" />
-  <img src="https://raw.githubusercontent.com/rkhplace/rkhplace/output/github-contribution-grid-snake.svg" alt="GitHub contribution snake" width="100%" />
-</picture>
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/rkhplace/rkhplace/output/github-contribution-grid-snake.gif" alt="GitHub contribution snake animation" width="100%" />
 </p>
