@@ -1,5 +1,5 @@
 <table>
-  <!-- Profile intro card section -->
+  <!-- Profile intro card -->
   <tr>
     <td>
       <p>
