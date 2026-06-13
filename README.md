@@ -6,7 +6,7 @@
       </p>
       <h1>Muhammad Rakha Pratama</h1>
       <p>
-        Informatics student and front-end developer interested in building practical digital products for web and mobile platforms.<br>
+        Informatics student, Backend and front-end developer interested in building practical digital products for web and mobile platforms.<br>
         I enjoy designing clean interfaces, improving user experience, and turning product ideas into responsive, maintainable applications.<br>
         Currently learning and working with modern web technologies, mobile development, and software testing.
       </p>
