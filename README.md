@@ -4,7 +4,7 @@
       <p>
         <img src="https://komarev.com/ghpvc/?username=rkhplace&label=Profile%20views&color=0e75b6&style=flat" alt="Profile views" />
       </p>
-      <h1>@rkhplace</h1>
+      <h1>Muhammad Rakha Pratama</h1>
       <p>
         Informatics student and front-end developer interested in building practical digital products for web and mobile platforms.<br>
         I enjoy designing clean interfaces, improving user experience, and turning product ideas into responsive, maintainable applications.<br>
