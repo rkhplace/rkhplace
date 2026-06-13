@@ -1,16 +1,23 @@
-<p align="left">
-  <img src="https://komarev.com/ghpvc/?username=rkhplace&label=Profile%20views&color=0e75b6&style=flat" alt="Profile views" />
-</p>
-
-# @rkhplace
-
-Informatics student and front-end developer interested in building practical digital products for web and mobile platforms.
-I enjoy designing clean interfaces, improving user experience, and turning product ideas into responsive, maintainable applications.
-Currently learning and working with modern web technologies, mobile development, and software testing.
-
-[![Instagram](https://img.shields.io/badge/Instagram-111827?style=for-the-badge&logo=instagram&logoColor=E4405F)](https://www.instagram.com/rkhap_)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-111827?style=for-the-badge&logo=linkedin&logoColor=0A66C2)](https://www.linkedin.com/in/rkhap/)
-[![Email](https://img.shields.io/badge/Email-111827?style=for-the-badge&logo=gmail&logoColor=EA4335)](mailto:mrakhaptatama135@gmail.com)
+<table>
+  <tr>
+    <td>
+      <p>
+        <img src="https://komarev.com/ghpvc/?username=rkhplace&label=Profile%20views&color=0e75b6&style=flat" alt="Profile views" />
+      </p>
+      <h1>@rkhplace</h1>
+      <p>
+        Informatics student and front-end developer interested in building practical digital products for web and mobile platforms.<br>
+        I enjoy designing clean interfaces, improving user experience, and turning product ideas into responsive, maintainable applications.<br>
+        Currently learning and working with modern web technologies, mobile development, and software testing.
+      </p>
+      <p>
+        <a href="https://www.instagram.com/rkhap_"><img src="https://img.shields.io/badge/Instagram-111827?style=for-the-badge&logo=instagram&logoColor=E4405F" alt="Instagram" /></a>
+        <a href="https://www.linkedin.com/in/rkhap/"><img src="https://img.shields.io/badge/LinkedIn-111827?style=for-the-badge&logo=linkedin&logoColor=0A66C2" alt="LinkedIn" /></a>
+        <a href="mailto:mrakhaptatama135@gmail.com"><img src="https://img.shields.io/badge/Email-111827?style=for-the-badge&logo=gmail&logoColor=EA4335" alt="Email" /></a>
+      </p>
+    </td>
+  </tr>
+</table>
 
 ---
 
