@@ -81,5 +81,5 @@
 ## Contribution snake
 
 <p align="center">
-  <img src="https://github.com/rkhplace/rkhplace/raw/output/github-contribution-grid-snake.gif" alt="GitHub contribution snake animation" width="100%" />
+  <img src="https://cdn.jsdelivr.net/gh/rkhplace/rkhplace@output/github-contribution-grid-snake-dark.svg" alt="GitHub contribution snake animation" width="100%" />
 </p>
